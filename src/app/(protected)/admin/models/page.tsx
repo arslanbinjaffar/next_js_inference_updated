@@ -97,6 +97,7 @@ const Page = () => {
         name: data.name,
         version: data.version,
         networkName: data.networkName,
+        expectedInferenceTime:data.expectedInferenceTime,
         path: data.path,
         description: data.description,
         acceptFile: data.acceptFile,
