@@ -190,11 +190,11 @@ const page = () => {
             id: inference._id,
             userName: (data: InferenceWithOptionalAttachment) => data.user,
             modelName: (data: InferenceWithOptionalAttachment) =>
-              data.model.name,
+              data.model?.name,
             lstAttachedFile: (data: InferenceWithOptionalAttachment) =>
               data.attachment || "N/A",
             attachment: (data: InferenceWithOptionalAttachment) => {
-              if (data.model.acceptFile) {
+              if (data.model?.acceptFile) {
                 return (
                   <AttachFileInRow
                     _id={data._id as unknown as string}

@@ -94,7 +94,7 @@ const SelectionModel = ({
           }}
           className="bg-blue-500 hover:bg-blue-600"
         >
-          <div>Start Inference on {model.name}</div>
+          Start Inference on {model.name}
         </Button>
       )}
       <small className="text-right font-semibold">
