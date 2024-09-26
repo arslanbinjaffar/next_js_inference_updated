@@ -12,7 +12,7 @@ import { initialize } from "@/app/lib/redux/features/auth/auth_slice";
 export default function Signin() {
   const router = useRouter();
   const [account, setAccount] = useState("");
-  const [code, setCode] = useState("");
+  //   const [code, setCode] = useState("");
   const [password, setPassword] = useState("");
   const dispatch = useDispatch();
 
