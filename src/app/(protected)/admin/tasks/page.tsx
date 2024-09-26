@@ -19,11 +19,9 @@ import toast from "react-hot-toast";
 import { startInference } from "../../client/page";
 import { socket } from "@/socket";
 import { cn } from "@/app/lib/utils";
-import { Iinferance } from "@/app/models/Inference";
-import { IUser } from "@/app/models/User";
+import { Iinference } from "@/app/models/Inference";
 import { IModel } from "@/app/models/Model";
-import { Button, ButtonProps } from "@/app/components/ui/button";
-import { useAttachFile } from "@/app/hooks/useAttachFile";
+import { Button } from "@/app/components/ui/button";
 
 const TableHeaders = [
   {
@@ -31,7 +29,7 @@ const TableHeaders = [
     className: "w-[100px]",
   },
   {
-    title: "Username",
+    title: "User Id",
   },
   {
     title: "Inference Model",
@@ -50,7 +48,7 @@ const TableHeaders = [
   },
 ];
 
-type InferenceWithOptionalAttachment = Iinferance<IUser, IModel>;
+type InferenceWithOptionalAttachment = Iinference<IModel>;
 
 type filesList = { [key: string]: File | undefined };
 
@@ -74,14 +72,14 @@ const page = () => {
       title: "Start",
       onClick: async (inference: InferenceWithOptionalAttachment) => {
         try {
-          const File = filesList[inference._id];
+          const File = filesList[inference._id as unknown as string];
           if (inference.model.acceptFile && File) {
             const form = new FormData();
             form.append("file", File);
             const { data } = await axios.post("/api/upload", form);
             startInference(
-              inference.model._id,
-              inference.user._id,
+              inference.model._id as unknown as string,
+              inference.user,
               +inference.model.expectedInferenceTime.slice(0, -1),
               {
                 attachment: data.file,
@@ -89,8 +87,8 @@ const page = () => {
             );
           } else {
             startInference(
-              inference.model._id,
-              inference.user._id,
+              inference.model._id as unknown as string,
+              inference.user,
               +inference.model.expectedInferenceTime.slice(0, -1)
             );
           }
@@ -114,14 +112,14 @@ const page = () => {
           const { data } = await axios.get(`/api/inference/pause`, {
             params: {
               model_id: inference.model._id,
-              user_id: inference.user._id,
+              user_id: inference.user,
             },
           });
 
           dispatch(
             updateUserTask({
-              user_id: inference.user._id,
-              model_id: inference.model._id,
+              user_id: inference.user,
+              model_id: inference.model._id as unknown as string,
               status: "Paused",
               total_infer_time: inference.total_infer_time,
               elapsed_time: inference.elapsed_time,
@@ -152,13 +150,13 @@ const page = () => {
           const { data } = await axios.get(`/api/inference/stop`, {
             params: {
               model_id: inference.model._id,
-              user_id: inference.user._id,
+              user_id: inference.user,
             },
           });
 
           socket.emit("stopped", {
             model_id: inference.model._id,
-            user_id: inference.user._id,
+            user_id: inference.user,
             elapsed_time: inference.elapsed_time,
             total_infer_time: inference.total_infer_time,
             status: "Stopped",
@@ -190,8 +188,7 @@ const page = () => {
         rows={tasks.map((inference: InferenceWithOptionalAttachment) => {
           return {
             id: inference._id,
-            userName: (data: InferenceWithOptionalAttachment) =>
-              data.user.userName,
+            userName: (data: InferenceWithOptionalAttachment) => data.user,
             modelName: (data: InferenceWithOptionalAttachment) =>
               data.model.name,
             lstAttachedFile: (data: InferenceWithOptionalAttachment) =>
@@ -200,7 +197,7 @@ const page = () => {
               if (data.model.acceptFile) {
                 return (
                   <AttachFileInRow
-                    _id={data._id}
+                    _id={data._id as unknown as string}
                     filesList={filesList}
                     setFilesList={setFilesList}
                   />

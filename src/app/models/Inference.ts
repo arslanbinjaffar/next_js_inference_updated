@@ -1,13 +1,14 @@
 import mongoose, { Schema, model, Types, Document } from "mongoose";
 import { IModel } from "./Model";
 
-export interface Iinference<m = string> extends Document {
+export interface Iinference<m = string> {
+  _id: Types.ObjectId | string;
   status: string;
   total_infer_time: number;
   elapsed_time: number;
   attachment: string;
-  user: Number;
-  _model: m;
+  user: string;
+  model: m;
 }
 
 const Inference = new Schema<Iinference<IModel>>(
@@ -28,7 +29,11 @@ const Inference = new Schema<Iinference<IModel>>(
       type: String,
       default: "",
     },
-    _model: {
+    user: {
+      type: String,
+      default: "",
+    },
+    model: {
       type: Types.ObjectId,
       ref: "Model",
       required: true,

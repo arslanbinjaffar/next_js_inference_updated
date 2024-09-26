@@ -8,10 +8,9 @@ import {
   appendInference,
   updateInference,
 } from "./redux/features/inference/inference_slice";
-import { Iinferance } from "../models/Inference";
 import { ITaskUpdateData } from "@/types";
 import { IModel } from "../models/Model";
-import { IUser } from "../models/User";
+import { Iinference } from "../models/Inference";
 
 // Todo: Only update the tasks for the admin User
 /**
@@ -27,17 +26,17 @@ const Event_listener = () => {
   useEffect(() => {
     function handleInferenceStatusUpdatesEvent(data: ITaskUpdateData) {
       if (userInfo.isAdmin) dispatch(updateUserTask(data));
-      else if (userInfo._id === data.user_id && !userInfo.isAdmin)
+      else if (userInfo.UserId === data.user_id && !userInfo.isAdmin)
         dispatch(updateInference(data));
     }
 
-    function handleNewInterferenceTask(data: Iinferance<IUser, IModel>) {
+    function handleNewInterferenceTask(data: Iinference<IModel>) {
       if (userInfo.isAdmin) dispatch(appendTask(data));
-      else if (userInfo._id === data.user._id && !userInfo.isAdmin)
+      else if (userInfo.UserId === data.user && !userInfo.isAdmin)
         dispatch(
           appendInference({
             ...data,
-            user: data.user._id,
+            user: data.user,
             model: data.model._id,
           })
         );

@@ -11,6 +11,7 @@ import Event_listener from "./lib/event_listener";
 import { useAppDispatch, useAppSelector } from "./lib/redux/hooks";
 import { usePathname, useRouter } from "next/navigation";
 import { initialize } from "./lib/redux/features/auth/auth_slice";
+import { ADMIN_ACCOUNT } from "./page";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -80,7 +81,8 @@ const Auth = () => {
       path.startsWith("/client")
     )
       return;
-    if (isInitialized && userInfo.isAdmin) router.push("/admin");
+    if (isInitialized && userInfo.account === ADMIN_ACCOUNT)
+      router.push("/admin");
     else if (isInitialized) router.push("/client");
     else if (localStorage.getItem("user_info")) {
       dispatch(initialize(JSON.parse(localStorage.getItem("user_info")!)));

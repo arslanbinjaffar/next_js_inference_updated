@@ -1,6 +1,7 @@
-import mongoose, { Document, Schema, model } from "mongoose";
+import mongoose, { Document, Schema, Types, model } from "mongoose";
 
 export interface IResource extends Document {
+  _id: Types.ObjectId;
   ip: string;
   cpu: string;
   gpu: string;

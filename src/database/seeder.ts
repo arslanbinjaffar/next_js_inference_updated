@@ -1,90 +1,8 @@
 import connectDB from "@/app/lib/mongodbConnect";
-import User from "@/app/models/User";
 import Model from "@/app/models/Model";
 import Inference from "@/app/models/Inference";
 import Resource from "@/app/models/Resource";
 import { createInterface } from "node:readline/promises";
-
-const ModelsData = [
-  {
-    name: "Basic Data Model",
-    description: "A simple model for basic data processing and analysis.",
-    expectedInferenceTime: "30s",
-    acceptFile: false,
-  },
-  {
-    name: "Advanced Data Model",
-    description:
-      "An advanced model designed for complex data processing tasks.",
-    expectedInferenceTime: "45s",
-    acceptFile: true,
-  },
-  {
-    name: "Real-Time Data Model",
-    description:
-      "A model optimized for real-time data analysis and processing.",
-    expectedInferenceTime: "15s",
-    acceptFile: false,
-  },
-  {
-    name: "Batch Data Model",
-    description: "A model suitable for batch data processing and analysis.",
-    expectedInferenceTime: "60s",
-    acceptFile: true,
-  },
-  {
-    name: "Predictive Data Model",
-    description: "A model focused on predictive analytics and forecasting.",
-    expectedInferenceTime: "40s",
-    acceptFile: true,
-  },
-];
-const UsersData = [
-  {
-    userName: "Admin User",
-    isAdmin: true,
-  },
-  {
-    userName: "Thomas Edison",
-    isAdmin: false,
-  },
-  {
-    userName: "Nikola Tesla",
-    isAdmin: false,
-  },
-  {
-    userName: "Marie Curie",
-    isAdmin: false,
-  },
-  {
-    userName: "Albert Einstein",
-    isAdmin: false,
-  },
-  {
-    userName: "Isaac Newton",
-    isAdmin: false,
-  },
-  {
-    userName: "Galileo Galilei",
-    isAdmin: false,
-  },
-  {
-    userName: "Leonardo da Vinci",
-    isAdmin: false,
-  },
-  {
-    userName: "Charles Darwin",
-    isAdmin: false,
-  },
-  {
-    userName: "Alexander Graham Bell",
-    isAdmin: false,
-  },
-  {
-    userName: "Stephen Hawking",
-    isAdmin: false,
-  },
-];
 
 const ResourceData = [
   {
@@ -139,9 +57,6 @@ const seed = async () => {
   if (["yes", "y"].includes(answer.toLowerCase())) {
     await Inference.deleteMany();
     await Model.deleteMany();
-    await Model.insertMany(ModelsData);
-    await User.deleteMany();
-    await User.insertMany(UsersData);
     await Resource.deleteMany();
     await Resource.insertMany(ResourceData);
     console.log("Seeded data successfully");

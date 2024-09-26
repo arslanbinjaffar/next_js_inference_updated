@@ -6,9 +6,7 @@ export async function GET(req: NextRequest) {
   try {
     await connectDB();
 
-    const inferences = await MongooseModels.Inference.find()
-      .populate("user")
-      .populate("model");
+    const inferences = await MongooseModels.Inference.find().populate("model");
 
     return NextResponse.json(inferences, {
       status: 200,

@@ -13,6 +13,7 @@ interface RouteParams {
 export async function GET(req: NextRequest, { params }: RouteParams) {
   try {
     await connectDB();
+    console.log({ params: params.user_id });
     const userInferences = await MongooseModels.Inference.find({
       user: params.user_id,
     });

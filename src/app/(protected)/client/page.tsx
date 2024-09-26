@@ -56,7 +56,7 @@ export default function Home() {
   };
 
   useEffect(() => {
-    if (userInfo._id) getUserInference(userInfo._id);
+    if (userInfo.UserId) getUserInference(userInfo.UserId);
   }, [userInfo]);
 
   const fetchModelsData = async () => {
@@ -79,7 +79,7 @@ export default function Home() {
         const inference = inferences.find((inf) => inf.model === model._id);
         return (
           <SelectionModel
-            key={model._id}
+            key={model._id as unknown as string}
             model={model}
             buttonAction={startInference}
             inference={inference}

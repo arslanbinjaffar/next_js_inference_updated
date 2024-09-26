@@ -1,6 +1,13 @@
 // features/auth/authSlice.js
-import { IUser } from "@/app/models/User";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+
+export interface IUser {
+  UserId: string;
+  account: string;
+  userStatus: number;
+  token: string;
+  isAdmin: boolean;
+}
 
 const initialState: {
   userInfo: IUser;

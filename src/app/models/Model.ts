@@ -1,7 +1,9 @@
-import mongoose, { Schema, model } from "mongoose";
+import mongoose, { Schema, Types, model } from "mongoose";
 
-export interface IModel extends Document {
+export interface IModel {
+  _id: Types.ObjectId | string;
   name: string;
+  expectedInferenceTime: string;
   version: string;
   networkName: string;
   path: string;
@@ -11,9 +13,13 @@ export interface IModel extends Document {
   updatedAt: Date;
 }
 
-const ModelSchema = new Schema(
+const ModelSchema = new Schema<IModel>(
   {
     name: {
+      type: String,
+      required: true,
+    },
+    expectedInferenceTime: {
       type: String,
       required: true,
     },

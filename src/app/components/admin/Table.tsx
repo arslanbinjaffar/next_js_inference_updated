@@ -17,7 +17,7 @@ type Props = {
 
 export function TableGeneric({ caption, headers, rows }: Props) {
   console.log(headers, " headers");
-  console.log(rows, 'rows');
+  console.log(rows, "rows");
 
   return (
     <Table>
@@ -40,9 +40,7 @@ export function TableGeneric({ caption, headers, rows }: Props) {
                 const cells = [];
                 for (let [k, v] of Object.entries(r)) {
                   // Only include relevant fields
-                  if (k === "createdAt" || k === "updatedAt") {
-                    continue;
-                  }
+                  if (k === "createdAt" || k === "updatedAt") continue;
 
                   // Add "Accepts File" field
                   if (k === "acceptFile") {
@@ -52,23 +50,12 @@ export function TableGeneric({ caption, headers, rows }: Props) {
                       </TableCell>
                     );
                   }
-                  // Add "Inference Time" field
-                  else if (k === "expectedInferenceTime") {
-                    cells.push(
-                      <TableCell key={`inferenceTime-${k}`}>
-                        {v}
-                      </TableCell>
-                    );
-                  }
+
                   // Add other fields
                   else if (typeof v === "string") {
                     cells.push(<TableCell key={`string-${k}`}>{v}</TableCell>);
                   } else if (typeof v === "function") {
-                    cells.push(
-                      <TableCell key={`func-${k}`}>
-                        {v(r)}
-                      </TableCell>
-                    );
+                    cells.push(<TableCell key={`func-${k}`}>{v(r)}</TableCell>);
                   }
                 }
                 return cells;
@@ -102,4 +89,4 @@ export const TableActions = ({
       ))}
     </div>
   );
-}
+};

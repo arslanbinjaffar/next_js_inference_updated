@@ -21,8 +21,8 @@ export async function GET(req: NextRequest) {
 export async function POST(req: NextRequest) {
   try {
     await connectDB();
-    const body: IModel = await req.json();
-    const newModel = new MongooseModels.Model(body);
+    const { _id, ...rest }: IModel = await req.json();
+    const newModel = new MongooseModels.Model(rest);
     await newModel.save();
 
     return NextResponse.json(newModel, {
@@ -40,7 +40,9 @@ export async function PUT(req: NextRequest) {
   try {
     await connectDB();
     const body: IModel = await req.json();
-    const model = await MongooseModels.Model.findByIdAndUpdate(body._id, body, { new: true });
+    const model = await MongooseModels.Model.findByIdAndUpdate(body._id, body, {
+      new: true,
+    });
     if (!model) {
       return NextResponse.json("Model not found", { status: 404 });
     }

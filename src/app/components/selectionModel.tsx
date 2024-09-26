@@ -1,8 +1,8 @@
-import React, { Dispatch, SetStateAction, useRef, useState } from "react";
+import React, { useState } from "react";
 import { Card } from "./ui/card";
 import { Button } from "./ui/button";
 import { useAppSelector } from "@/app/lib/redux/hooks";
-import { Iinferance } from "@/app/models/Inference";
+import { Iinference } from "@/app/models/Inference";
 import { Progress } from "./ui/progress";
 import { cn } from "@/app/lib/utils";
 import { IModel } from "../models/Model";
@@ -18,7 +18,7 @@ type Props = {
     infer_time: number,
     params?: Record<string, any>
   ) => Promise<void>;
-  inference: Iinferance | undefined;
+  inference: Iinference | undefined;
 };
 
 const SelectionModel = ({
@@ -26,7 +26,7 @@ const SelectionModel = ({
   model = {},
   buttonAction,
   inference = {
-    _id: "",
+    _id: "" as unknown as string,
     status: "",
     model: "",
     user: "",
@@ -67,18 +67,22 @@ const SelectionModel = ({
                 form.append("file", selectedFile);
                 const { data } = await axios.post("/api/upload", form);
                 buttonAction(
-                  model._id,
-                  userInfo._id,
-                  +model?.expectedInferenceTime?.slice(0, -1),
+                  model._id as unknown as string,
+                  userInfo.UserId as unknown as string,
+                  model?.expectedInferenceTime
+                    ? +model?.expectedInferenceTime?.slice(0, -1)
+                    : 20,
                   {
                     attachment: data.file,
                   }
                 );
               } else {
                 buttonAction(
-                  model._id,
-                  userInfo._id,
-                  +model?.expectedInferenceTime?.slice(0, -1)
+                  model._id as unknown as string,
+                  userInfo.UserId,
+                  model?.expectedInferenceTime
+                    ? +model?.expectedInferenceTime?.slice(0, -1)
+                    : 20
                 );
               }
             } catch (error) {

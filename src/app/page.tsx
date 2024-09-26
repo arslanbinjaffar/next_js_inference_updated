@@ -9,7 +9,7 @@ import toast from "react-hot-toast";
 import { useDispatch } from "react-redux";
 import { initialize } from "@/app/lib/redux/features/auth/auth_slice";
 
-const ADMIN_ACCOUNT = "Inference_Admin@gmail.com";
+export const ADMIN_ACCOUNT = "Inference_Admin_PRO@gmail.com";
 
 export default function Signin() {
   const router = useRouter();

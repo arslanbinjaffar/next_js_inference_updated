@@ -48,7 +48,7 @@ export async function GET(req: NextRequest) {
         {
           upsert: true,
           returnDocument: "after",
-          populate: ["user", "model"],
+          populate: ["model"],
           includeResultMetadata: true,
         }
       );
@@ -60,7 +60,7 @@ export async function GET(req: NextRequest) {
       value._id,
       {},
       {
-        populate: ["user", "model"],
+        populate: ["model"],
       }
     );
 
